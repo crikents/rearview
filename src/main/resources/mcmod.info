@@ -1,0 +1,16 @@
+[
+{
+  "modid": "rearview",
+  "name": "Rearview",
+  "description": "Minecraft Rearview Mirror.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["crikents"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
