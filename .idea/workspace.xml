@@ -64,10 +64,57 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RearviewClient.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="RearviewClient.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="51" selection-start="3557" selection-end="3557" vertical-scroll-proportion="0.49554896" vertical-offset="1448" max-vertical-offset="2533">
+            <state line="44" column="48" selection-start="1685" selection-end="1685" vertical-scroll-proportion="-13.076923" vertical-offset="408" max-vertical-offset="2669">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IHelmetMirror.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="22" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RearviewMod.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="133" selection-start="1551" selection-end="1551" vertical-scroll-proportion="1.1542857" vertical-offset="38" max-vertical-offset="646">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Mirror.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="13" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Rearview.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Rearview.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="17" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HelmetMirrorRecipe.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirrorRecipe.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="54" selection-start="946" selection-end="946" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1292">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -85,13 +132,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirror.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirrorRecipe.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/ArmorProxy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/MirrorStack.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewClient.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirrorRecipe.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1209" />
-    <option name="y" value="515" />
+    <option name="y" value="514" />
     <option name="width" value="1291" />
     <option name="height" value="754" />
   </component>
@@ -410,7 +465,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1209" y="515" width="1291" height="754" extended-state="0" />
+    <frame x="1209" y="514" width="1291" height="754" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -418,8 +473,9 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921174" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39876354" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39876354" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -433,7 +489,6 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -459,12 +514,56 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="13" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="13" selection-start="207" selection-end="207" vertical-scroll-proportion="0.19833334" vertical-offset="0" max-vertical-offset="600">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="22" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Rearview.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="17" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="51" selection-start="3557" selection-end="3557" vertical-scroll-proportion="0.49554896" vertical-offset="1448" max-vertical-offset="2533">
+        <state line="44" column="48" selection-start="1685" selection-end="1685" vertical-scroll-proportion="-13.076923" vertical-offset="408" max-vertical-offset="2669">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirrorRecipe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="54" selection-start="946" selection-end="946" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1292">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="133" selection-start="1551" selection-end="1551" vertical-scroll-proportion="1.1542857" vertical-offset="38" max-vertical-offset="646">
+          <folding />
         </state>
       </provider>
     </entry>

@@ -8,6 +8,8 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.opengl.ARBFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
@@ -66,7 +68,13 @@ public class RearviewClient implements Rearview, ITickHandler {
     @Override
     public void tickEnd(EnumSet<TickType> tickTypes, Object... objects) {
         Tessellator tes = Tessellator.instance;
-        if (mc.theWorld == null || mc.currentScreen != null) return;
+        if (mc.theWorld == null || mc.currentScreen != null || mc.gameSettings.thirdPersonView != 0
+            || mc.thePlayer == null) return;
+
+        ItemStack helmet = mc.thePlayer.inventory.armorItemInSlot(3);
+        if (helmet == null) return;
+        NBTTagCompound tag = helmet.getTagCompound();
+        if (tag == null || tag.getTag("rearview") == null) return;
 
         int w, h;
         float y, py, p, pp;
@@ -91,8 +99,8 @@ public class RearviewClient implements Rearview, ITickHandler {
         mc.gameSettings.limitFramerate = 0;
         mc.renderViewEntity.rotationYaw += 180;
         mc.renderViewEntity.prevRotationYaw += 180;
-        mc.renderViewEntity.rotationPitch = -p;
-        mc.renderViewEntity.prevRotationPitch = -pp;
+        mc.renderViewEntity.rotationPitch = -p + 25;
+        mc.renderViewEntity.prevRotationPitch = -pp + 25;
         mc.entityRenderer.updateCameraAndRender(0);
         mc.renderViewEntity.rotationYaw = y;
         mc.renderViewEntity.prevRotationYaw = py;
