@@ -34,8 +34,8 @@ public class RearviewClient implements Rearview, ITickHandler {
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB8, 320, 180, 0, GL11.GL_RGBA, GL11.GL_INT,
                 (java.nio.IntBuffer)null);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorDepth);
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_R, 320, 180, 0, GL11.GL_RGBA, GL11.GL_INT,
-                (java.nio.IntBuffer)null);
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_DEPTH_COMPONENT, 320, 180, 0, GL11.GL_DEPTH_COMPONENT,
+                          GL11.GL_INT, (java.nio.IntBuffer)null);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     }
 
@@ -49,48 +49,86 @@ public class RearviewClient implements Rearview, ITickHandler {
 
     }
 
+    private void switchToFB() {
+        ARBFramebufferObject.glBindFramebuffer(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER, mirrorFBO);
+        ARBFramebufferObject.glFramebufferTexture2D(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER,
+                ARBFramebufferObject.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D,
+                mirrorTex, 0);
+        ARBFramebufferObject.glFramebufferTexture2D(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER,
+                ARBFramebufferObject.GL_DEPTH_ATTACHMENT, GL11.GL_TEXTURE_2D,
+                mirrorDepth, 0);
+    }
+
+    private void switchFromFB() {
+        ARBFramebufferObject.glBindFramebuffer(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER, 0);
+    }
+
     @Override
     public void tickEnd(EnumSet<TickType> tickTypes, Object... objects) {
-        if (mc.theWorld != null && mc.currentScreen == null) {
-            int w, h;
-            float y;
-            boolean hide;
-            w = mc.displayWidth;
-            h = mc.displayHeight;
-            y = mc.renderViewEntity.rotationYaw;
-            ARBFramebufferObject.glBindFramebuffer(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER, mirrorFBO);
-            ARBFramebufferObject.glFramebufferTexture2D(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER,
-                    ARBFramebufferObject.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D,
-                    mirrorTex, 0);
-            ARBFramebufferObject.glFramebufferTexture2D(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER,
-                    ARBFramebufferObject.GL_DEPTH_ATTACHMENT, GL11.GL_TEXTURE_2D,
-                    mirrorDepth, 0);
-            GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-            mc.displayHeight = 180;
-            mc.displayWidth = 320;
-            mc.renderViewEntity.rotationYaw = 180;
-            mc.entityRenderer.updateCameraAndRender(Math.ulp(0f));
-            mc.displayHeight = h;
-            mc.displayWidth = w;
-            mc.thePlayer.rotationYaw = y;
-            ARBFramebufferObject.glBindFramebuffer(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER, 0);
+        Tessellator tes = Tessellator.instance;
+        if (mc.theWorld == null || mc.currentScreen != null) return;
 
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorTex);
-            Tessellator tes = Tessellator.instance;
-            tes.startDrawing(GL11.GL_QUADS);
-            tes.addVertexWithUV(0, 0, 0, 0, 1);
-            tes.addVertexWithUV(0, 180, 0, 0, 0);
-            tes.addVertexWithUV(320, 180, 0, 1, 0);
-            tes.addVertexWithUV(320, 0, 0, 1, 1);
-            tes.draw();
+        int w, h;
+        float y, py, p, pp;
+        boolean hide;
+        int view, limit;
+        w = mc.displayWidth;
+        h = mc.displayHeight;
+        y = mc.renderViewEntity.rotationYaw;
+        py = mc.renderViewEntity.prevRotationYaw;
+        p = mc.renderViewEntity.rotationPitch;
+        pp = mc.renderViewEntity.prevRotationPitch;
+        hide = mc.gameSettings.hideGUI;
+        view = mc.gameSettings.thirdPersonView;
+        limit = mc.gameSettings.limitFramerate;
 
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+        switchToFB();
 
-        }
+        mc.displayHeight = 180;
+        mc.displayWidth = 320;
+        mc.gameSettings.hideGUI = true;
+        mc.gameSettings.thirdPersonView = 0;
+        mc.gameSettings.limitFramerate = 0;
+        mc.renderViewEntity.rotationYaw += 180;
+        mc.renderViewEntity.prevRotationYaw += 180;
+        mc.renderViewEntity.rotationPitch = -p;
+        mc.renderViewEntity.prevRotationPitch = -pp;
+        mc.entityRenderer.updateCameraAndRender(0);
+        mc.renderViewEntity.rotationYaw = y;
+        mc.renderViewEntity.prevRotationYaw = py;
+        mc.renderViewEntity.rotationPitch = p;
+        mc.renderViewEntity.prevRotationPitch = pp;
+        mc.gameSettings.limitFramerate = limit;
+        mc.gameSettings.thirdPersonView = view;
+        mc.gameSettings.hideGUI = hide;
+        mc.displayWidth = w;
+        mc.displayHeight = h;
+
+        switchFromFB();
+        GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
+        mc.entityRenderer.setupOverlayRendering();
+
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorTex);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glColor3ub((byte) 24, (byte) 24, (byte) 24);
+        tes.startDrawing(GL11.GL_QUADS);
+        tes.addVertex(0, mc.displayHeight / 30, 0);
+        tes.addVertex(0, mc.displayHeight/20, 0);
+        tes.addVertex(mc.displayWidth / 20, mc.displayHeight / 15, 0);
+        tes.addVertex(mc.displayWidth/20, mc.displayHeight/25, 0);
+        tes.draw();
+        GL11.glColor3ub((byte) 255, (byte) 255, (byte) 255);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        tes.startDrawing(GL11.GL_QUADS);
+        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/60, 0, 0, 1);
+        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/6, 0, 0, 0);
+        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/7, 0, 1, 0);
+        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/40, 0, 1, 1);
+        tes.draw();
+
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     }
 
     @Override
