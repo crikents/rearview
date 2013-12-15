@@ -10,10 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.IEventListener;
-import net.minecraftforge.event.ListenerList;
 import org.lwjgl.opengl.ARBFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
@@ -99,8 +98,8 @@ public class RearviewClient implements Rearview, ITickHandler {
         int w, h;
         float y, py, p, pp;
         boolean hide;
-        ListenerList originalEventListeners = null;
         int view, limit;
+        MovingObjectPosition mouseOver;
         w = mc.displayWidth;
         h = mc.displayHeight;
         y = mc.renderViewEntity.rotationYaw;
@@ -110,6 +109,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         hide = mc.gameSettings.hideGUI;
         view = mc.gameSettings.thirdPersonView;
         limit = mc.gameSettings.limitFramerate;
+        mouseOver = mc.objectMouseOver;
 
         switchToFB();
         EVENT_BUS.suspend(RenderWorldLastEvent.class);
@@ -126,6 +126,7 @@ public class RearviewClient implements Rearview, ITickHandler {
 
         mc.entityRenderer.updateCameraAndRender((Float)objects[0]);
 
+        mc.objectMouseOver = mouseOver;
         mc.renderViewEntity.rotationYaw = y;
         mc.renderViewEntity.prevRotationYaw = py;
         mc.renderViewEntity.rotationPitch = p;
@@ -153,7 +154,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         tes.addVertex(0, mc.displayHeight / 30, 0);
         tes.addVertex(0, mc.displayHeight/20, 0);
         tes.addVertex(mc.displayWidth / 20, mc.displayHeight / 15, 0);
-        tes.addVertex(mc.displayWidth/20, mc.displayHeight/25, 0);
+        tes.addVertex(mc.displayWidth / 20, mc.displayHeight / 25, 0);
         tes.draw();
         tes.startDrawing(GL11.GL_QUADS);
         tes.addVertex(mc.displayWidth / 68, mc.displayHeight / 78, 0);
