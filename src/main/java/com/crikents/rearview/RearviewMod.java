@@ -12,6 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 
+import java.util.logging.Logger;
+
 @Mod(modid = RearviewMod.MODID, version = RearviewMod.VERSION)
 public class RearviewMod
 {
@@ -21,6 +23,7 @@ public class RearviewMod
     @SidedProxy(clientSide = "com.crikents.rearview.RearviewClient", serverSide = "com.crikents.rearview.RearviewServer")
     public static Rearview rv;
     public static Configuration conf;
+    public static Logger log;
 
     public static Mirror hm;
 
@@ -28,6 +31,7 @@ public class RearviewMod
     public void preinit(FMLPreInitializationEvent event) {
         rv.preinit(event);
         conf = new Configuration(event.getSuggestedConfigurationFile());
+        log = event.getModLog();
         hm = new Mirror(conf.getItem("helmetMirror", 1024, "The Helmet Mirror").getInt());
         hm.setUnlocalizedName("helmetMirror");
         hm.setTextureName("rearview:helmetMirror");

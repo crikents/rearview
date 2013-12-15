@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.opengl.ARBFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
+import java.lang.reflect.Field;
 import java.util.EnumSet;
 
 /**
@@ -24,6 +25,7 @@ public class RearviewClient implements Rearview, ITickHandler {
     public int mirrorFBO;
     public int mirrorTex;
     public int mirrorDepth;
+    public Field neiEnabledOverride;
 
     @Override
     public void preinit(FMLPreInitializationEvent event) {
@@ -34,11 +36,34 @@ public class RearviewClient implements Rearview, ITickHandler {
         mirrorDepth = GL11.glGenTextures();
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorTex);
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB8, 320, 180, 0, GL11.GL_RGBA, GL11.GL_INT,
-                (java.nio.IntBuffer)null);
+                (java.nio.IntBuffer) null);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorDepth);
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_DEPTH_COMPONENT, 320, 180, 0, GL11.GL_DEPTH_COMPONENT,
-                          GL11.GL_INT, (java.nio.IntBuffer)null);
+                GL11.GL_INT, (java.nio.IntBuffer) null);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+        checkForNEI();
+    }
+
+    public void checkForNEI() {
+        try {
+            Class c = Class.forName("codechicken.nei.NEIClientConfig");
+            neiEnabledOverride = c.getDeclaredField("enabledOverride");
+            neiEnabledOverride.setAccessible(true);
+        } catch (Exception e) {}
+    }
+
+    public boolean getNEIEnabled() {
+        try {
+            return neiEnabledOverride == null ? false : neiEnabledOverride.getBoolean(null);
+        } catch (Exception e) {RearviewMod.log.info("No Go: " + e);}
+        return false;
+    }
+
+    public void setNEIEnabled(boolean enabled) {
+        try {
+            if (neiEnabledOverride != null)
+                neiEnabledOverride.setBoolean(null, enabled);
+        } catch (Exception e) {RearviewMod.log.warning("Couldn't enable NEI");}
     }
 
     @Override
@@ -78,7 +103,7 @@ public class RearviewClient implements Rearview, ITickHandler {
 
         int w, h;
         float y, py, p, pp;
-        boolean hide;
+        boolean hide, neiEnabled;
         int view, limit;
         w = mc.displayWidth;
         h = mc.displayHeight;
@@ -91,6 +116,9 @@ public class RearviewClient implements Rearview, ITickHandler {
         limit = mc.gameSettings.limitFramerate;
 
         switchToFB();
+        neiEnabled = getNEIEnabled();
+        if (neiEnabled)
+            setNEIEnabled(false);
 
         mc.displayHeight = 180;
         mc.displayWidth = 320;
@@ -101,7 +129,9 @@ public class RearviewClient implements Rearview, ITickHandler {
         mc.renderViewEntity.prevRotationYaw += 180;
         mc.renderViewEntity.rotationPitch = -p + 25;
         mc.renderViewEntity.prevRotationPitch = -pp + 25;
+
         mc.entityRenderer.updateCameraAndRender(0);
+
         mc.renderViewEntity.rotationYaw = y;
         mc.renderViewEntity.prevRotationYaw = py;
         mc.renderViewEntity.rotationPitch = p;
@@ -113,19 +143,30 @@ public class RearviewClient implements Rearview, ITickHandler {
         mc.displayHeight = h;
 
         switchFromFB();
+        if (neiEnabled)
+            setNEIEnabled(true);
+
         GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
         mc.entityRenderer.setupOverlayRendering();
 
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorTex);
-        GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glColor3ub((byte) 24, (byte) 24, (byte) 24);
         tes.startDrawing(GL11.GL_QUADS);
         tes.addVertex(0, mc.displayHeight / 30, 0);
         tes.addVertex(0, mc.displayHeight/20, 0);
         tes.addVertex(mc.displayWidth / 20, mc.displayHeight / 15, 0);
         tes.addVertex(mc.displayWidth/20, mc.displayHeight/25, 0);
+        tes.draw();
+        tes.startDrawing(GL11.GL_QUADS);
+        tes.addVertex(mc.displayWidth / 68, mc.displayHeight / 78, 0);
+        tes.addVertex(mc.displayWidth / 68, mc.displayHeight / 5.8, 0);
+        tes.addVertex(mc.displayWidth / 5.93, mc.displayHeight / 6.9, 0);
+        tes.addVertex(mc.displayWidth / 5.93, mc.displayHeight / 48, 0);
         tes.draw();
         GL11.glColor3ub((byte) 255, (byte) 255, (byte) 255);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -136,6 +177,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/40, 0, 1, 1);
         tes.draw();
 
+        GL11.glPopAttrib();
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     }
 
