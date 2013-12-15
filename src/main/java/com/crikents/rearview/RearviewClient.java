@@ -10,10 +10,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.IEventListener;
+import net.minecraftforge.event.ListenerList;
 import org.lwjgl.opengl.ARBFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.EnumSet;
 
 /**
@@ -25,7 +30,7 @@ public class RearviewClient implements Rearview, ITickHandler {
     public int mirrorFBO;
     public int mirrorTex;
     public int mirrorDepth;
-    public Field neiEnabledOverride;
+    public SuspendibleEventBus EVENT_BUS;
 
     @Override
     public void preinit(FMLPreInitializationEvent event) {
@@ -41,29 +46,19 @@ public class RearviewClient implements Rearview, ITickHandler {
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_DEPTH_COMPONENT, 320, 180, 0, GL11.GL_DEPTH_COMPONENT,
                 GL11.GL_INT, (java.nio.IntBuffer) null);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-        checkForNEI();
-    }
 
-    public void checkForNEI() {
-        try {
-            Class c = Class.forName("codechicken.nei.NEIClientConfig");
-            neiEnabledOverride = c.getDeclaredField("enabledOverride");
-            neiEnabledOverride.setAccessible(true);
-        } catch (Exception e) {}
-    }
 
-    public boolean getNEIEnabled() {
+        /* OK, so this is obviously beyond bad. But I really want to be able to
+           render without anybody else's hooks getting called. I promise to do
+           this a better way at some point. */
+        EVENT_BUS = new SuspendibleEventBus(MinecraftForge.EVENT_BUS);
         try {
-            return neiEnabledOverride == null ? false : neiEnabledOverride.getBoolean(null);
-        } catch (Exception e) {RearviewMod.log.info("No Go: " + e);}
-        return false;
-    }
-
-    public void setNEIEnabled(boolean enabled) {
-        try {
-            if (neiEnabledOverride != null)
-                neiEnabledOverride.setBoolean(null, enabled);
-        } catch (Exception e) {RearviewMod.log.warning("Couldn't enable NEI");}
+            Field EBField = MinecraftForge.class.getField("EVENT_BUS");
+            Field modifiers = Field.class.getDeclaredField("modifiers");
+            modifiers.setAccessible(true);
+            modifiers.setInt(EBField, EBField.getModifiers() & ~Modifier.FINAL);
+            EBField.set(null, EVENT_BUS);
+        } catch (Exception e) { throw new RuntimeException(e); }
     }
 
     @Override
@@ -103,7 +98,8 @@ public class RearviewClient implements Rearview, ITickHandler {
 
         int w, h;
         float y, py, p, pp;
-        boolean hide, neiEnabled;
+        boolean hide;
+        ListenerList originalEventListeners = null;
         int view, limit;
         w = mc.displayWidth;
         h = mc.displayHeight;
@@ -116,9 +112,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         limit = mc.gameSettings.limitFramerate;
 
         switchToFB();
-        neiEnabled = getNEIEnabled();
-        if (neiEnabled)
-            setNEIEnabled(false);
+        EVENT_BUS.suspend(RenderWorldLastEvent.class);
 
         mc.displayHeight = 180;
         mc.displayWidth = 320;
@@ -130,7 +124,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         mc.renderViewEntity.rotationPitch = -p + 25;
         mc.renderViewEntity.prevRotationPitch = -pp + 25;
 
-        mc.entityRenderer.updateCameraAndRender(0);
+        mc.entityRenderer.updateCameraAndRender((Float)objects[0]);
 
         mc.renderViewEntity.rotationYaw = y;
         mc.renderViewEntity.prevRotationYaw = py;
@@ -142,9 +136,8 @@ public class RearviewClient implements Rearview, ITickHandler {
         mc.displayWidth = w;
         mc.displayHeight = h;
 
+        EVENT_BUS.resume(RenderWorldLastEvent.class);
         switchFromFB();
-        if (neiEnabled)
-            setNEIEnabled(true);
 
         GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
         mc.entityRenderer.setupOverlayRendering();
