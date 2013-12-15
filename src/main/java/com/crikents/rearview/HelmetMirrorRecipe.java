@@ -38,24 +38,32 @@ public class HelmetMirrorRecipe implements IRecipe {
 
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
+        ItemStack theHelmet = null;
+        Mirror theMirror = null;
         for (int i = 0; i < inventorycrafting.getSizeInventory(); i++) {
             ItemStack is = inventorycrafting.getStackInSlot(i);
             if (is == null) continue;
             Item item = is.getItem();
             if (item instanceof ItemArmor) {
-                ItemStack newIs = is.copy();
-                newIs.setTagInfo(RearviewMod.MODID, new NBTTagByte("hasMirror", (byte)1));
-                NBTTagCompound display = newIs.getTagCompound().getCompoundTag("display");
-                if (display == null) display = new NBTTagCompound();
-                NBTTagList lore = display.getTagList("Lore");
-                if (lore == null) lore = new NBTTagList();
-                lore.appendTag(new NBTTagString("Lore", "\u00A1con espejo!"));
-                display.setTag("Lore", lore);
-                newIs.setTagInfo("display", display);
-                return newIs;
+                theHelmet = is;
+            } else {
+                theMirror = (Mirror)is.getItem();
             }
         }
-        return null;
+
+        if (theHelmet == null || theMirror == null) return null;
+
+        ItemStack newIs = theHelmet.copy();
+        newIs.setTagInfo(RearviewMod.MODID, new NBTTagByte("mirrorSide", (byte)(theMirror.onLeft ? 1 : 0)));
+
+        NBTTagCompound display = newIs.getTagCompound().getCompoundTag("display");
+        if (display == null) display = new NBTTagCompound();
+        NBTTagList lore = display.getTagList("Lore");
+        if (lore == null) lore = new NBTTagList();
+        lore.appendTag(new NBTTagString("Lore", "\u00A1con espejo! " + (theMirror.onLeft ? "LEFT" : "RIGHT")));
+        display.setTag("Lore", lore);
+        newIs.setTagInfo("display", display);
+        return newIs;
     }
 
     @Override

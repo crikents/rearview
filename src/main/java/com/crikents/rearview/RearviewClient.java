@@ -9,15 +9,18 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.nio.FloatBuffer;
 import java.util.EnumSet;
 
 /**
@@ -92,8 +95,11 @@ public class RearviewClient implements Rearview, ITickHandler {
 
         ItemStack helmet = mc.thePlayer.inventory.armorItemInSlot(3);
         if (helmet == null) return;
-        NBTTagCompound tag = helmet.getTagCompound();
-        if (tag == null || tag.getTag("rearview") == null) return;
+        NBTTagCompound helmetNbt = helmet.getTagCompound();
+        NBTTagByte mirrorSideNbt;
+        if (helmetNbt == null || (mirrorSideNbt = (NBTTagByte)helmetNbt.getTag(RearviewMod.MODID)) == null) return;
+
+        boolean onLeft = mirrorSideNbt.data != 0;
 
         int w, h;
         float y, py, p, pp;
@@ -142,6 +148,11 @@ public class RearviewClient implements Rearview, ITickHandler {
 
         GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
         mc.entityRenderer.setupOverlayRendering();
+        if (!onLeft) {
+            GL11.glTranslatef(mc.displayWidth/2, 0f, 0f);
+            GL11.glScalef(-1f, 1, 1);
+            GL11.glFrontFace(GL11.GL_CW);
+        }
 
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorTex);
@@ -156,22 +167,25 @@ public class RearviewClient implements Rearview, ITickHandler {
         tes.addVertex(mc.displayWidth / 20, mc.displayHeight / 15, 0);
         tes.addVertex(mc.displayWidth / 20, mc.displayHeight / 25, 0);
         tes.draw();
+
         tes.startDrawing(GL11.GL_QUADS);
         tes.addVertex(mc.displayWidth / 68, mc.displayHeight / 78, 0);
         tes.addVertex(mc.displayWidth / 68, mc.displayHeight / 5.8, 0);
         tes.addVertex(mc.displayWidth / 5.93, mc.displayHeight / 6.9, 0);
         tes.addVertex(mc.displayWidth / 5.93, mc.displayHeight / 48, 0);
         tes.draw();
+
         GL11.glColor3ub((byte) 255, (byte) 255, (byte) 255);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         tes.startDrawing(GL11.GL_QUADS);
-        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/60, 0, 0, 1);
-        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/6, 0, 0, 0);
-        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/7, 0, 1, 0);
-        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/40, 0, 1, 1);
+        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/60, 0, onLeft ? 0 : 1, 1);
+        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/6, 0, onLeft ? 0 : 1, 0);
+        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/7, 0, onLeft ? 1 : 0, 0);
+        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/40, 0, onLeft ? 1 : 0, 1);
         tes.draw();
 
         GL11.glPopAttrib();
+        GL11.glFrontFace(GL11.GL_CCW);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     }
 

@@ -11,6 +11,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.logging.Logger;
 
@@ -25,20 +27,30 @@ public class RearviewMod
     public static Configuration conf;
     public static Logger log;
 
-    public static Mirror hm;
+    public static Mirror hml;
+    public static Mirror hmr;
 
     @EventHandler
     public void preinit(FMLPreInitializationEvent event) {
         rv.preinit(event);
         conf = new Configuration(event.getSuggestedConfigurationFile());
         log = event.getModLog();
-        hm = new Mirror(conf.getItem("helmetMirror", 1024, "The Helmet Mirror").getInt());
-        hm.setUnlocalizedName("helmetMirror");
-        hm.setTextureName("rearview:helmetMirror");
-        LanguageRegistry.addName(hm, "Helmet Mirror");
-        GameRegistry.registerItem(hm, "helmetMirror", MODID);
+        hml = new Mirror(conf.getItem("helmetMirrorLeft", 1024, "The Helmet Mirror").getInt(), true);
+        hmr = new Mirror(conf.getItem("helmetMirrorRight", 1025, "The Helmet Mirror").getInt(), false);
+        hml.setUnlocalizedName("helmetMirrorLeft");
+        hmr.setUnlocalizedName("helmetMirrorRight");
+        hml.setTextureName("rearview:helmetMirrorLeft");
+        hmr.setTextureName("rearview:helmetMirrorRight");
+        LanguageRegistry.addName(hml, "Helmet Mirror (Left)");
+        LanguageRegistry.addName(hmr, "Helmet Mirror (Right)");
+        GameRegistry.registerItem(hml, "helmetMirrorLeft", MODID);
+        GameRegistry.registerItem(hmr, "helmetMirrorRight", MODID);
 
-        GameRegistry.addShapedRecipe(new ItemStack(hm), " GG", " GG", "S  ", Character.valueOf('G'), Block.glass, Character.valueOf('S'), Item.stick);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hml), " IG", " IG", "S  ",
+                'I', Item.ingotIron, 'G', Block.glass, 'S', "stickWood"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hmr), "GI ", "GI ", "  S",
+                'I', Item.ingotIron, 'G', Block.glass, 'S', "stickWood"));
+
         GameRegistry.addRecipe(new HelmetMirrorRecipe());
         conf.save();
     }
