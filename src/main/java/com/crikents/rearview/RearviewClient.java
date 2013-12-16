@@ -99,7 +99,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         NBTTagByte mirrorSideNbt;
         if (helmetNbt == null || (mirrorSideNbt = (NBTTagByte)helmetNbt.getTag(RearviewMod.MODID)) == null) return;
 
-        boolean onLeft = mirrorSideNbt.data != 0;
+        boolean onLeft = mirrorSideNbt.data == 0;
 
         int w, h;
         float y, py, p, pp;
@@ -130,7 +130,9 @@ public class RearviewClient implements Rearview, ITickHandler {
         mc.renderViewEntity.rotationPitch = -p + 25;
         mc.renderViewEntity.prevRotationPitch = -pp + 25;
 
+        GL11.glPushAttrib(GL11.GL_VIEWPORT_BIT);
         mc.entityRenderer.updateCameraAndRender((Float)objects[0]);
+        GL11.glPopAttrib();
 
         mc.objectMouseOver = mouseOver;
         mc.renderViewEntity.rotationYaw = y;
@@ -146,19 +148,19 @@ public class RearviewClient implements Rearview, ITickHandler {
         EVENT_BUS.resume(RenderWorldLastEvent.class);
         switchFromFB();
 
-        GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
         mc.entityRenderer.setupOverlayRendering();
+
+        GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT | GL11.GL_POLYGON_BIT | GL11.GL_TEXTURE_BIT);
+
         if (!onLeft) {
             GL11.glTranslatef(mc.displayWidth/2, 0f, 0f);
             GL11.glScalef(-1f, 1, 1);
             GL11.glFrontFace(GL11.GL_CW);
         }
 
-        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorTex);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glColor3ub((byte) 24, (byte) 24, (byte) 24);
         tes.startDrawing(GL11.GL_QUADS);
@@ -176,17 +178,17 @@ public class RearviewClient implements Rearview, ITickHandler {
         tes.draw();
 
         GL11.glColor3ub((byte) 255, (byte) 255, (byte) 255);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorTex);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         tes.startDrawing(GL11.GL_QUADS);
         tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/60, 0, onLeft ? 0 : 1, 1);
-        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/6, 0, onLeft ? 0 : 1, 0);
-        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/7, 0, onLeft ? 1 : 0, 0);
-        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/40, 0, onLeft ? 1 : 0, 1);
+        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/6, 0.2, onLeft ? 0 : 1, 0);
+        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/7, 0.4, onLeft ? 1 : 0, 0);
+        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/40, 0.3, onLeft ? 1 : 0, 1);
         tes.draw();
 
         GL11.glPopAttrib();
-        GL11.glFrontFace(GL11.GL_CCW);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+        GL11.glPopMatrix();
     }
 
     @Override

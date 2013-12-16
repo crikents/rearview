@@ -100,10 +100,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RearviewClient.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="RearviewClient.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="182" column="89" selection-start="7534" selection-end="7534" vertical-scroll-proportion="1.5330033" vertical-offset="2165" max-vertical-offset="3519">
+            <state line="101" column="45" selection-start="4147" selection-end="4147" vertical-scroll-proportion="0.0" vertical-offset="1077" max-vertical-offset="3553">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -114,25 +114,18 @@
       <file leaf-file-name="SuspendibleEventBus.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/SuspendibleEventBus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="833">
-              <folding />
+            <state line="35" column="0" selection-start="802" selection-end="802" vertical-scroll-proportion="0.0" vertical-offset="364" max-vertical-offset="782">
+              <folding>
+                <element signature="e#349#356#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IHelmetMirror.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="22" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="221">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RearviewMod.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="RearviewMod.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="0" selection-start="2524" selection-end="2524" vertical-scroll-proportion="0.0" vertical-offset="244" max-vertical-offset="850">
+            <state line="46" column="0" selection-start="2090" selection-end="2090" vertical-scroll-proportion="0.6948229" vertical-offset="272" max-vertical-offset="969">
               <folding />
             </state>
           </provider>
@@ -141,8 +134,10 @@
       <file leaf-file-name="Mirror.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="29" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
-              <folding />
+            <state line="23" column="67" selection-start="592" selection-end="614" vertical-scroll-proportion="0.0" vertical-offset="155" max-vertical-offset="833">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -150,7 +145,7 @@
       <file leaf-file-name="Rearview.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Rearview.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="17" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="306">
+            <state line="8" column="17" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
               <folding />
             </state>
           </provider>
@@ -159,7 +154,7 @@
       <file leaf-file-name="HelmetMirrorRecipe.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirrorRecipe.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="99" selection-start="2494" selection-end="2494" vertical-scroll-proportion="0.0" vertical-offset="669" max-vertical-offset="1275">
+            <state line="59" column="45" selection-start="2153" selection-end="2153" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="952">
               <folding />
             </state>
           </provider>
@@ -180,11 +175,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/ArmorProxy.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/MirrorStack.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/SuspendibleEventBus.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirrorRecipe.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewClient.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/SuspendibleEventBus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirrorRecipe.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java" />
       </list>
     </option>
   </component>
@@ -646,7 +641,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39816234" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39816234" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -702,14 +697,9 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/SuspendibleEventBus.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="833">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="22" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="221">
-          <folding />
+          <folding>
+            <element signature="e#349#356#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -723,7 +713,9 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="13" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="306">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -750,13 +742,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="22" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="221">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="36" column="133" selection-start="1551" selection-end="1551" vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="816">
@@ -767,7 +752,9 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="13" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="306">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -794,13 +781,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="22" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="221">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="36" column="133" selection-start="1551" selection-end="1551" vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="816">
@@ -811,7 +791,9 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="13" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="306">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -836,9 +818,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/IHelmetMirror.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.6.4-9.11.1.964/forge-1.6.4-9.11.1.964-src.jar!/net/minecraft/client/Minecraft.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="22" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+        <state line="2457" column="0" selection-start="88258" selection-end="88258" vertical-scroll-proportion="0.33142856" vertical-offset="38780" max-vertical-offset="39525">
           <folding />
         </state>
       </provider>
@@ -850,47 +832,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.6.4-9.11.1.964/forge-1.6.4-9.11.1.964-src.jar!/net/minecraft/client/Minecraft.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2457" column="0" selection-start="88258" selection-end="88258" vertical-scroll-proportion="0.33142856" vertical-offset="38780" max-vertical-offset="39525">
-          <folding />
+        <state line="23" column="67" selection-start="592" selection-end="614" vertical-scroll-proportion="0.0" vertical-offset="155" max-vertical-offset="833">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/SuspendibleEventBus.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0" vertical-offset="396" max-vertical-offset="833">
-          <folding />
+        <state line="35" column="0" selection-start="802" selection-end="802" vertical-scroll-proportion="0.0" vertical-offset="364" max-vertical-offset="782">
+          <folding>
+            <element signature="e#349#356#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/Mirror.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="29" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+        <state line="101" column="45" selection-start="4147" selection-end="4147" vertical-scroll-proportion="0.0" vertical-offset="1077" max-vertical-offset="3553">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirrorRecipe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="45" selection-start="2153" selection-end="2153" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="952">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewMod.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="0" selection-start="2524" selection-end="2524" vertical-scroll-proportion="0.0" vertical-offset="436" max-vertical-offset="850">
+        <state line="46" column="0" selection-start="2090" selection-end="2090" vertical-scroll-proportion="0.6948229" vertical-offset="272" max-vertical-offset="969">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/HelmetMirrorRecipe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="99" selection-start="2494" selection-end="2494" vertical-scroll-proportion="0.0" vertical-offset="669" max-vertical-offset="1275">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/crikents/rearview/RearviewClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="89" selection-start="7534" selection-end="7534" vertical-scroll-proportion="1.5330033" vertical-offset="2165" max-vertical-offset="3519">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

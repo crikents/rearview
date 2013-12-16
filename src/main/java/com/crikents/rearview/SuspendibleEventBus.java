@@ -3,6 +3,7 @@ package com.crikents.rearview;
 import net.minecraftforge.event.Event;
 import net.minecraftforge.event.EventBus;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -10,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class SuspendibleEventBus extends EventBus {
     EventBus bus;
-    CopyOnWriteArraySet<Class> suspended = new CopyOnWriteArraySet<Class>();
+    ArrayList<Class> suspended = new ArrayList<Class>();
 
     SuspendibleEventBus(EventBus bus) {
         this.bus = bus;
