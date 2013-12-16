@@ -14,13 +14,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.nio.FloatBuffer;
 import java.util.EnumSet;
 
 /**
@@ -60,7 +58,9 @@ public class RearviewClient implements Rearview, ITickHandler {
             modifiers.setAccessible(true);
             modifiers.setInt(EBField, EBField.getModifiers() & ~Modifier.FINAL);
             EBField.set(null, EVENT_BUS);
-        } catch (Exception e) { throw new RuntimeException(e); }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -91,13 +91,13 @@ public class RearviewClient implements Rearview, ITickHandler {
     public void tickEnd(EnumSet<TickType> tickTypes, Object... objects) {
         Tessellator tes = Tessellator.instance;
         if (mc.theWorld == null || mc.currentScreen != null || mc.gameSettings.thirdPersonView != 0
-            || mc.thePlayer == null) return;
+                || mc.thePlayer == null) return;
 
         ItemStack helmet = mc.thePlayer.inventory.armorItemInSlot(3);
         if (helmet == null) return;
         NBTTagCompound helmetNbt = helmet.getTagCompound();
         NBTTagByte mirrorSideNbt;
-        if (helmetNbt == null || (mirrorSideNbt = (NBTTagByte)helmetNbt.getTag(RearviewMod.MODID)) == null) return;
+        if (helmetNbt == null || (mirrorSideNbt = (NBTTagByte) helmetNbt.getTag(RearviewMod.MODID)) == null) return;
 
         boolean onLeft = mirrorSideNbt.data == 0;
 
@@ -131,7 +131,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         mc.renderViewEntity.prevRotationPitch = -pp + 25;
 
         GL11.glPushAttrib(GL11.GL_VIEWPORT_BIT);
-        mc.entityRenderer.updateCameraAndRender((Float)objects[0]);
+        mc.entityRenderer.updateCameraAndRender((Float) objects[0]);
         GL11.glPopAttrib();
 
         mc.objectMouseOver = mouseOver;
@@ -154,7 +154,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT | GL11.GL_POLYGON_BIT | GL11.GL_TEXTURE_BIT);
 
         if (!onLeft) {
-            GL11.glTranslatef(mc.displayWidth/2, 0f, 0f);
+            GL11.glTranslatef(mc.displayWidth / 2, 0f, 0f);
             GL11.glScalef(-1f, 1, 1);
             GL11.glFrontFace(GL11.GL_CW);
         }
@@ -165,7 +165,7 @@ public class RearviewClient implements Rearview, ITickHandler {
         GL11.glColor3ub((byte) 24, (byte) 24, (byte) 24);
         tes.startDrawing(GL11.GL_QUADS);
         tes.addVertex(0, mc.displayHeight / 30, 0);
-        tes.addVertex(0, mc.displayHeight/20, 0);
+        tes.addVertex(0, mc.displayHeight / 20, 0);
         tes.addVertex(mc.displayWidth / 20, mc.displayHeight / 15, 0);
         tes.addVertex(mc.displayWidth / 20, mc.displayHeight / 25, 0);
         tes.draw();
@@ -181,10 +181,10 @@ public class RearviewClient implements Rearview, ITickHandler {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, mirrorTex);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         tes.startDrawing(GL11.GL_QUADS);
-        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/60, 0, onLeft ? 0 : 1, 1);
-        tes.addVertexWithUV(mc.displayWidth/60, mc.displayHeight/6, 0.2, onLeft ? 0 : 1, 0);
-        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/7, 0.4, onLeft ? 1 : 0, 0);
-        tes.addVertexWithUV(mc.displayWidth/6, mc.displayHeight/40, 0.3, onLeft ? 1 : 0, 1);
+        tes.addVertexWithUV(mc.displayWidth / 60, mc.displayHeight / 60, 0, onLeft ? 1 : 0, 1);
+        tes.addVertexWithUV(mc.displayWidth / 60, mc.displayHeight / 6, 0.2, onLeft ? 1 : 0, 0);
+        tes.addVertexWithUV(mc.displayWidth / 6, mc.displayHeight / 7, 0.4, onLeft ? 0 : 1, 0);
+        tes.addVertexWithUV(mc.displayWidth / 6, mc.displayHeight / 40, 0.3, onLeft ? 0 : 1, 1);
         tes.draw();
 
         GL11.glPopAttrib();

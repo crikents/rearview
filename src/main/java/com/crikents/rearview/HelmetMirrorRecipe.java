@@ -4,13 +4,11 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
@@ -22,7 +20,7 @@ public class HelmetMirrorRecipe extends ShapelessRecipes {
     public byte side;
 
     HelmetMirrorRecipe(final byte side, final Mirror m, final ItemArmor helmet) {
-        super(addMirror(new ItemStack(helmet), side), new ArrayList<ItemStack>(){{
+        super(addMirror(new ItemStack(helmet), side), new ArrayList<ItemStack>() {{
             add(new ItemStack(helmet));
             add(new ItemStack(m, 1, side));
         }});

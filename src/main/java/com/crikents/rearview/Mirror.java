@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class Mirror extends Item {
     public Icon[] icons;
+
     public Mirror(int id) {
         super(id);
         setMaxDamage(0);

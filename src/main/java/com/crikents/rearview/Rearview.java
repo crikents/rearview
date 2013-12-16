@@ -8,5 +8,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  */
 public interface Rearview {
     public void preinit(FMLPreInitializationEvent event);
+
     public void init(FMLInitializationEvent event);
 }
