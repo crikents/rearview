@@ -13,7 +13,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.1.2"
+version = "0.1.3"
 group= "com.crikents.rearview" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "rearview"
 
