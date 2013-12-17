@@ -7,6 +7,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagByte;
@@ -30,7 +31,8 @@ public class RearviewClient implements Rearview, ITickHandler {
     public int mirrorFBO;
     public int mirrorTex;
     public int mirrorDepth;
-    public SuspendibleEventBus EVENT_BUS;
+    public int framecount;
+    public Field renderEndNanoTime;
 
     @Override
     public void preinit(FMLPreInitializationEvent event) {
@@ -47,17 +49,9 @@ public class RearviewClient implements Rearview, ITickHandler {
                 GL11.GL_INT, (java.nio.IntBuffer) null);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
-
-        /* OK, so this is obviously beyond bad. But I really want to be able to
-           render without anybody else's hooks getting called. I promise to do
-           this a better way at some point. */
-        EVENT_BUS = new SuspendibleEventBus(MinecraftForge.EVENT_BUS);
         try {
-            Field EBField = MinecraftForge.class.getField("EVENT_BUS");
-            Field modifiers = Field.class.getDeclaredField("modifiers");
-            modifiers.setAccessible(true);
-            modifiers.setInt(EBField, EBField.getModifiers() & ~Modifier.FINAL);
-            EBField.set(null, EVENT_BUS);
+            renderEndNanoTime = EntityRenderer.class.getDeclaredField("renderEndNanoTime");
+            renderEndNanoTime.setAccessible(true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -87,6 +81,62 @@ public class RearviewClient implements Rearview, ITickHandler {
         ARBFramebufferObject.glBindFramebuffer(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER, 0);
     }
 
+    public void updateMirror(float partialTick) {
+        int w, h;
+        float y, py, p, pp;
+        boolean hide;
+        int view, limit;
+        long endTime = 0;
+        MovingObjectPosition mouseOver;
+        w = mc.displayWidth;
+        h = mc.displayHeight;
+        y = mc.renderViewEntity.rotationYaw;
+        py = mc.renderViewEntity.prevRotationYaw;
+        p = mc.renderViewEntity.rotationPitch;
+        pp = mc.renderViewEntity.prevRotationPitch;
+        hide = mc.gameSettings.hideGUI;
+        view = mc.gameSettings.thirdPersonView;
+        limit = mc.gameSettings.limitFramerate;
+        mouseOver = mc.objectMouseOver;
+
+        switchToFB();
+
+        try {
+            endTime = renderEndNanoTime.getLong(mc.entityRenderer);
+        } catch (Exception e) {}
+        mc.displayHeight = 180;
+        mc.displayWidth = 320;
+        mc.gameSettings.hideGUI = true;
+        mc.gameSettings.thirdPersonView = 0;
+        mc.gameSettings.limitFramerate = 0;
+        mc.renderViewEntity.rotationYaw += 180;
+        mc.renderViewEntity.prevRotationYaw += 180;
+        mc.renderViewEntity.rotationPitch = -p + 15;
+        mc.renderViewEntity.prevRotationPitch = -pp + 15;
+
+        GL11.glPushAttrib(GL11.GL_VIEWPORT_BIT | GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT | GL11.GL_POLYGON_BIT | GL11.GL_TEXTURE_BIT);
+        mc.entityRenderer.updateCameraAndRender(partialTick);
+        try {
+            renderEndNanoTime.setLong(mc.entityRenderer, endTime);
+        } catch (Exception e) {}
+        GL11.glPopAttrib();
+
+        mc.objectMouseOver = mouseOver;
+        mc.renderViewEntity.rotationYaw = y;
+        mc.renderViewEntity.prevRotationYaw = py;
+        mc.renderViewEntity.rotationPitch = p;
+        mc.renderViewEntity.prevRotationPitch = pp;
+        mc.gameSettings.limitFramerate = limit;
+        mc.gameSettings.thirdPersonView = view;
+        mc.gameSettings.hideGUI = hide;
+        mc.displayWidth = w;
+        mc.displayHeight = h;
+
+        switchFromFB();
+
+        mc.entityRenderer.setupOverlayRendering();
+    }
+
     @Override
     public void tickEnd(EnumSet<TickType> tickTypes, Object... objects) {
         Tessellator tes = Tessellator.instance;
@@ -101,54 +151,9 @@ public class RearviewClient implements Rearview, ITickHandler {
 
         boolean onLeft = mirrorSideNbt.data == 0;
 
-        int w, h;
-        float y, py, p, pp;
-        boolean hide;
-        int view, limit;
-        MovingObjectPosition mouseOver;
-        w = mc.displayWidth;
-        h = mc.displayHeight;
-        y = mc.renderViewEntity.rotationYaw;
-        py = mc.renderViewEntity.prevRotationYaw;
-        p = mc.renderViewEntity.rotationPitch;
-        pp = mc.renderViewEntity.prevRotationPitch;
-        hide = mc.gameSettings.hideGUI;
-        view = mc.gameSettings.thirdPersonView;
-        limit = mc.gameSettings.limitFramerate;
-        mouseOver = mc.objectMouseOver;
-
-        switchToFB();
-        EVENT_BUS.suspend(RenderWorldLastEvent.class);
-
-        mc.displayHeight = 180;
-        mc.displayWidth = 320;
-        mc.gameSettings.hideGUI = true;
-        mc.gameSettings.thirdPersonView = 0;
-        mc.gameSettings.limitFramerate = 0;
-        mc.renderViewEntity.rotationYaw += 180;
-        mc.renderViewEntity.prevRotationYaw += 180;
-        mc.renderViewEntity.rotationPitch = -p + 25;
-        mc.renderViewEntity.prevRotationPitch = -pp + 25;
-
-        GL11.glPushAttrib(GL11.GL_VIEWPORT_BIT);
-        mc.entityRenderer.updateCameraAndRender((Float) objects[0]);
-        GL11.glPopAttrib();
-
-        mc.objectMouseOver = mouseOver;
-        mc.renderViewEntity.rotationYaw = y;
-        mc.renderViewEntity.prevRotationYaw = py;
-        mc.renderViewEntity.rotationPitch = p;
-        mc.renderViewEntity.prevRotationPitch = pp;
-        mc.gameSettings.limitFramerate = limit;
-        mc.gameSettings.thirdPersonView = view;
-        mc.gameSettings.hideGUI = hide;
-        mc.displayWidth = w;
-        mc.displayHeight = h;
-
-        EVENT_BUS.resume(RenderWorldLastEvent.class);
-        switchFromFB();
-
-        mc.entityRenderer.setupOverlayRendering();
+        if (framecount++%2 == 0) {
+            updateMirror((Float)objects[0]);
+        }
 
         GL11.glPushMatrix();
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT | GL11.GL_POLYGON_BIT | GL11.GL_TEXTURE_BIT);
