@@ -30,6 +30,7 @@ public class RearviewClient implements Rearview, ITickHandler {
     public int mirrorDepth;
     public int framecount;
     public Field renderEndNanoTime;
+    public RenderGlobalHelper mirrorRenderGlobal;
 
     @Override
     public void preinit(FMLPreInitializationEvent event) {
@@ -52,7 +53,12 @@ public class RearviewClient implements Rearview, ITickHandler {
 
         try {
             renderEndNanoTime = EntityRenderer.class.getDeclaredField("renderEndNanoTime");
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
+        if (renderEndNanoTime == null) try {
+            renderEndNanoTime = EntityRenderer.class.getDeclaredField("field_78534_ac");
+        } catch (Exception e) {
+        }
         if (renderEndNanoTime != null) {
             renderEndNanoTime.setAccessible(true);
         }
@@ -60,7 +66,7 @@ public class RearviewClient implements Rearview, ITickHandler {
 
     @Override
     public void init(FMLInitializationEvent event) {
-
+        mirrorRenderGlobal = new RenderGlobalHelper();
     }
 
     @Override
@@ -102,11 +108,13 @@ public class RearviewClient implements Rearview, ITickHandler {
 
         switchToFB();
 
-        if (renderEndNanoTime != null) {
+        if (limit != 0 && renderEndNanoTime != null) {
             try {
                 endTime = renderEndNanoTime.getLong(mc.entityRenderer);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
+
         mc.displayHeight = 180;
         mc.displayWidth = 320;
         mc.gameSettings.hideGUI = true;
@@ -116,18 +124,23 @@ public class RearviewClient implements Rearview, ITickHandler {
         mc.renderViewEntity.prevRotationYaw += 180;
         mc.renderViewEntity.rotationPitch = -p + 18;
         mc.renderViewEntity.prevRotationPitch = -pp + 18;
+        mirrorRenderGlobal.switchTo();
 
         GL11.glPushAttrib(GL11.GL_VIEWPORT_BIT | GL11.GL_ENABLE_BIT |
-                          GL11.GL_CURRENT_BIT | GL11.GL_POLYGON_BIT |
-                          GL11.GL_TEXTURE_BIT);
+                GL11.GL_CURRENT_BIT | GL11.GL_POLYGON_BIT |
+                GL11.GL_TEXTURE_BIT);
+
         mc.entityRenderer.updateCameraAndRender(partialTick);
-        if (renderEndNanoTime != null) {
+
+        if (limit != 0 && renderEndNanoTime != null) {
             try {
                 renderEndNanoTime.setLong(mc.entityRenderer, endTime);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
         GL11.glPopAttrib();
 
+        mirrorRenderGlobal.switchFrom();
         mc.objectMouseOver = mouseOver;
         mc.renderViewEntity.rotationYaw = y;
         mc.renderViewEntity.prevRotationYaw = py;
