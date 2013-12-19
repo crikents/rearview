@@ -33,7 +33,6 @@ public class RearviewMod {
 
     @EventHandler
     public void preinit(FMLPreInitializationEvent event) {
-        rv.preinit(event);
         conf = new Configuration(event.getSuggestedConfigurationFile());
         log = event.getModLog();
         mir = new Mirror(conf.getItem("Helmet Mirror", 3841, "The Helmet Mirror").getInt());
@@ -59,6 +58,8 @@ public class RearviewMod {
         };
         GameRegistry.addRecipe(leftRecipe);
         GameRegistry.addRecipe(rightRecipe);
+
+        rv.preinit(event);
 
         conf.save();
     }
